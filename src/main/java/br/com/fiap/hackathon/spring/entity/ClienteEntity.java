@@ -2,6 +2,9 @@ package br.com.fiap.hackathon.spring.entity;
 
 import java.util.UUID;
 
+import br.com.fiap.hackathon.core.exception.BusinessException;
+import br.com.fiap.hackathon.core.vo.cliente.ClienteVo;
+import br.com.fiap.hackathon.spring.dto.cliente.RequestClienteDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,26 +18,40 @@ public class ClienteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "cd_cliente")
+    @Column(name = "cd_cliente", nullable = false)
     UUID codigo;
-    @Column(name = "cd_cpf")
+    @Column(name = "cd_cpf", nullable = false, unique = true, length = 11)
     String cpf;
-    @Column(name = "nm_cliente")
+    @Column(name = "nm_cliente", nullable = false)
     String nome;
-    @Column(name = "ds_email")
+    @Column(name = "ds_email", nullable = false)
     String email;
-    @Column(name = "nr_telefone")
+    @Column(name = "nr_telefone", nullable = false)
     String telefone;
-    @Column(name = "nm_rua")
+    @Column(name = "nm_rua", nullable = false)
     String rua;
-    @Column(name = "nm_cidade")
+    @Column(name = "nm_cidade", nullable = false)
     String cidade;
-    @Column(name = "nm_estado")
+    @Column(name = "nm_estado", nullable = false)
     String estado;
-    @Column(name = "cd_cep")
+    @Column(name = "cd_cep", nullable = false)
     String cep;
-    @Column(name = "nm_pais")
+    @Column(name = "nm_pais", nullable = false)
     String pais;
+
+    public ClienteEntity() {}
+
+    public ClienteEntity(ClienteVo cliente) {
+        this.cpf = cliente.getCpf();
+        this.nome = cliente.getNome();
+        this.email =  cliente.getEmail();
+        this.telefone = cliente.getTelefone();
+        this.rua = cliente.getEndereco().getRua();
+        this.cidade = cliente.getEndereco().getCidade();
+        this.estado = cliente.getEndereco().getEstado();
+        this.cep = cliente.getEndereco().getCep();
+        this.pais = cliente.getEndereco().getPais();
+    }
 
     public String getCpf() {
         return cpf;
@@ -97,4 +114,7 @@ public class ClienteEntity {
         this.codigo = codigo;
     }
 
+    public ClienteVo toVo() throws BusinessException{
+        return new RequestClienteDTO(cpf, nome, email, telefone, rua, cidade, estado, cep, pais).toVo();
+    }
 }
