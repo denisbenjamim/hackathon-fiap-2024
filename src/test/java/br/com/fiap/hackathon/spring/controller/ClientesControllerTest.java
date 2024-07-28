@@ -31,7 +31,7 @@ class ClientesControllerTest {
             .contentType(ContentType.JSON)
             .body("""
                 {
-                    "cpf":"1111111111",
+                    "cpf":"11111111111",
                     "nome":"João da Silva",
                     "email":"joao@example.com",
                     "telefone":"+55 11 91234-5678",
@@ -46,7 +46,7 @@ class ClientesControllerTest {
                 .post("/api/cliente")
             .then()
                 .statusCode(HttpStatus.SC_CREATED)
-                .body("id_cliente",is("1111111111"))
+                .body("id_cliente",is("11111111111"))
         ;
     }
 
@@ -56,7 +56,7 @@ class ClientesControllerTest {
             .contentType(ContentType.JSON)
             .body("""
                 {
-                    "cpf":"1111111112",
+                    "cpf":"11111111112",
                     "nome":"João da Silva",
                     "email":"joao@example.com",
                     "telefone":"+55 11 91234-5678",
@@ -71,14 +71,14 @@ class ClientesControllerTest {
                 .post("/api/cliente")
             .then()
                 .statusCode(HttpStatus.SC_CREATED)
-                .body("id_cliente",is("1111111112"))
+                .body("id_cliente",is("11111111112"))
         ;
 
         given()
         .contentType(ContentType.JSON)
         .body("""
             {
-                "cpf":"1111111112",
+                "cpf":"11111111112",
                 "nome":"João da Silva",
                 "email":"joao@example.com",
                 "telefone":"+55 11 91234-5678",
