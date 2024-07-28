@@ -5,7 +5,4 @@ public class BusinessException extends Exception {
         super(message);
     }
 
-    public BusinessException(String message, Throwable throwable){
-        super(message, throwable);
-    }
 }

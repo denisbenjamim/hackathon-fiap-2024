@@ -18,7 +18,7 @@ public class ClienteCartaoEmbeddable implements Serializable{
     @JoinColumn(name = "cd_cliente",foreignKey = @ForeignKey(name = "FK_CLIENTE_CARTAO"))
     ClienteEntity cliente;
     
-    @Column(length = 19, name = "nr_cartao")
+    @Column(length = 19, name = "nr_cartao", unique = true)
     String numero;
 
     public ClienteCartaoEmbeddable() {
@@ -33,15 +33,7 @@ public class ClienteCartaoEmbeddable implements Serializable{
         return cliente;
     }
 
-    public void setCliente(ClienteEntity cliente) {
-        this.cliente = cliente;
-    }
-
     public String getNumero() {
         return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
     }
 }
