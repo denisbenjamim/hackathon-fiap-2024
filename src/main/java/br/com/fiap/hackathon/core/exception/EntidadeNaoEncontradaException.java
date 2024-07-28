@@ -1,10 +1,10 @@
 package br.com.fiap.hackathon.core.exception;
 
-public class EntidadeNaoEncontrada extends BusinessException {
+public class EntidadeNaoEncontradaException extends BusinessException {
 
 	private static final long serialVersionUID = -8536572272522223875L;
 
-	public EntidadeNaoEncontrada(String message) {
+	public EntidadeNaoEncontradaException(String message) {
 		super(message);
 	}
 

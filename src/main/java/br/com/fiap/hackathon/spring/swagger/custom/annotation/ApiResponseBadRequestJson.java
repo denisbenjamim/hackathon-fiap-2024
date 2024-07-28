@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @ApiResponse(
 	responseCode = "400", 
-	description = "Registro solicitado não encontrado.",
+	description = "Validação regra de negócio.",
     content = { 
 		@Content(
 			mediaType = MediaType.APPLICATION_JSON_VALUE,

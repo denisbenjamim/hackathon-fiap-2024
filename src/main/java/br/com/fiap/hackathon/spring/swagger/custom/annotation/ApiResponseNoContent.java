@@ -18,4 +18,4 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 	description = "Operação realizada com sucesso, mas sem arquivo de retorno",
 	content = @Content()
 )
-public @interface ApiResponseNoContentJson{}
+public @interface ApiResponseNoContent{}

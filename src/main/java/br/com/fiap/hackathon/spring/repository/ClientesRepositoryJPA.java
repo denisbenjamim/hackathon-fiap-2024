@@ -12,4 +12,5 @@ import br.com.fiap.hackathon.spring.entity.ClienteEntity;
 public interface ClientesRepositoryJPA extends JpaRepository<ClienteEntity, UUID> {
     
     public ClienteEntity findByCpf(String cpf);
+    public boolean existsByCpf(String cpf);
 }

@@ -2,46 +2,59 @@ package br.com.fiap.hackathon.spring.entity;
 
 import java.math.BigDecimal;
 
+import br.com.fiap.hackathon.core.exception.BusinessException;
+import br.com.fiap.hackathon.core.vo.cartao.CartaoVo;
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "tb_cartao")
 public class CartaoEntity {
-    
-    @OneToOne
-    @JoinColumn(name = "cd_cliente")
-    ClienteEntity cliente;
+   
+    @EmbeddedId
+    ClienteCartaoEmbeddable id;
+
+    @Column(name = "qt_limite")
     BigDecimal limite = BigDecimal.ZERO;
-    @Id
-    @Column(length = 16, name = "nr_cartao")
-    String numero;
+    
     @Column(length = 5, name = "dt_validade")
     String dataValidade;
-    @Column(length = 3, name = "cd_cvv")
+    
+    @Column(length = 4, name = "cd_cvv")
     String cvv;
 
+    public CartaoEntity() {
+    }
+
+    public CartaoEntity(CartaoVo cartao) {
+        this.cvv = cartao.getCvv();
+        this.dataValidade = cartao.getDataValidade();
+        this.limite = cartao.getLimite();
+        final ClienteEntity cliente = new ClienteEntity(cartao.getCliente());
+        this.id = new ClienteCartaoEmbeddable(cliente, cartao.getNumero());
+    }
+
+    public CartaoVo toVo() throws BusinessException{
+        return new CartaoVo(id.getCliente().toVo(), limite, id.getNumero(), dataValidade, cvv);
+    }
+
+    @Transient
     public ClienteEntity getCliente() {
-        return cliente;
+        return id.getCliente();
     }
-    public void setCliente(ClienteEntity cliente) {
-        this.cliente = cliente;
-    }
+   
     public BigDecimal getLimite() {
         return limite;
     }
     public void setLimite(BigDecimal limite) {
         this.limite = limite;
     }
+    @Transient
     public String getNumero() {
-        return numero;
-    }
-    public void setNumero(String numero) {
-        this.numero = numero;
+        return id.getNumero();
     }
     public String getDataValidade() {
         return dataValidade;
@@ -56,5 +69,11 @@ public class CartaoEntity {
         this.cvv = cvv;
     }
 
-    
+    public ClienteCartaoEmbeddable getId() {
+        return id;
+    }
+
+    public void setId(ClienteCartaoEmbeddable id) {
+        this.id = id;
+    }
 }

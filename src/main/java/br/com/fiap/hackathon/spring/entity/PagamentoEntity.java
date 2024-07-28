@@ -5,10 +5,12 @@ import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -20,9 +22,14 @@ public class PagamentoEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "cd_pagamento", nullable = false)
     UUID chave;
+   
     @ManyToOne
-    @JoinColumn(name="cd_cartao", nullable = false)
+    @JoinColumns(foreignKey = @ForeignKey(name = "FK_CARTAO_PAGAMENTO"),value = {
+        @JoinColumn(name="nr_cartao", referencedColumnName = "nr_cartao" , nullable = false),
+        @JoinColumn(name="cd_cliente", referencedColumnName = "cd_cliente" , nullable = false)
+    })
     CartaoEntity cartao;
+
     @Column(name = "vl_pagamento", nullable = false)
     BigDecimal valor = BigDecimal.ZERO;
 

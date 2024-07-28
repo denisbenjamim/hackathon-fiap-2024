@@ -56,6 +56,4 @@ public class ClienteVo {
     public EnderecoVo getEndereco() {
         return endereco;
     }
-    
-    
 }

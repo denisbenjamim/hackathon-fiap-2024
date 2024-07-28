@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import br.com.fiap.hackathon.core.exception.ArgumentoObrigatorioException;
 import br.com.fiap.hackathon.core.exception.BusinessException;
+import br.com.fiap.hackathon.core.exception.ClienteExistenteException;
 import br.com.fiap.hackathon.core.gateway.ClientesRepository;
 import br.com.fiap.hackathon.core.vo.cliente.ClienteVo;
 
@@ -18,6 +19,10 @@ public class RegistraClienteUseCase {
     public ClienteVo registrar(final ClienteVo cliente) throws BusinessException {
         if(Objects.isNull(cliente)){
             throw new ArgumentoObrigatorioException("Cliente é obrigatório");
+        }
+
+        if(repository.buscarPorCPFExistente(cliente.getCpf())){
+            throw new ClienteExistenteException();
         }
 
         return repository.registrar(cliente);
