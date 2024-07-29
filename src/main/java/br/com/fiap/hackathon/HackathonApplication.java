@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Bean;
 
 import br.com.fiap.hackathon.core.gateway.CartoesRepository;
 import br.com.fiap.hackathon.core.gateway.ClientesRepository;
-import br.com.fiap.hackathon.core.usecases.cartao.GeraCartaoUseCase;
-import br.com.fiap.hackathon.core.usecases.cliente.BuscaClienteUseCase;
-import br.com.fiap.hackathon.core.usecases.cliente.RegistraClienteUseCase;
 import br.com.fiap.hackathon.infra.adapter.repository.CartaoRepositoryImpl;
 import br.com.fiap.hackathon.infra.adapter.repository.ClientesRepositoryImpl;
 import br.com.fiap.hackathon.spring.repository.CartoesRepositoryJPA;
@@ -22,23 +19,8 @@ public class HackathonApplication {
 	}
 
 	@Bean
-	RegistraClienteUseCase registrarClienteUseCase(ClientesRepository repository){
-		return new RegistraClienteUseCase(repository);
-	} 
-
-	@Bean
 	ClientesRepository clienteRepository(ClientesRepositoryJPA repository){
 		return new ClientesRepositoryImpl(repository);
-	}
-
-	@Bean
-	BuscaClienteUseCase buscaClienteUseCase(ClientesRepository repository){
-		return new BuscaClienteUseCase(repository);
-	}
-
-	@Bean
-	GeraCartaoUseCase geraCartaoUseCase(CartoesRepository repository){
-		return new GeraCartaoUseCase(repository);
 	}
 
 	@Bean
