@@ -17,6 +17,7 @@ import br.com.fiap.hackathon.core.exception.ArgumentoObrigatorioException;
 import br.com.fiap.hackathon.core.exception.BusinessException;
 import br.com.fiap.hackathon.core.exception.ClienteExistenteException;
 import br.com.fiap.hackathon.core.gateway.ClientesRepository;
+import br.com.fiap.hackathon.core.output.RegistraClienteOutput;
 import br.com.fiap.hackathon.core.vo.cliente.ClienteVo;
 
 class RegistraClienteUseCaseTest {
@@ -58,12 +59,12 @@ class RegistraClienteUseCaseTest {
     void deveRegistrarCliente() throws BusinessException {
         final ClienteVo clienteVo = mock(ClienteVo.class);
         final ClienteVo clienteSalvoVo = mock(ClienteVo.class);
-        
+        when(clienteSalvoVo.getCpf()).thenReturn("11111111119");
         when(repository.registrar(clienteVo)).thenReturn(clienteSalvoVo);
         
-        final ClienteVo retorno = useCase.registrar(clienteVo);
+        final RegistraClienteOutput retorno = (RegistraClienteOutput) useCase.registrar(clienteVo);
 
-        assertEquals(clienteSalvoVo, retorno);
+        assertEquals(clienteSalvoVo.getCpf(), retorno.getId_cliente());
 
         verify(repository).registrar(clienteVo);
     }

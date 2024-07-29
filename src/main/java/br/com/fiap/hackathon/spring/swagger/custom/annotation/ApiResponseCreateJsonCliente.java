@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.http.MediaType;
 
-import br.com.fiap.hackathon.spring.dto.cliente.ResponseClienteDTO;
+import br.com.fiap.hackathon.core.output.RegistraClienteOutput;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
     content = { 
 		@Content(
 				mediaType = MediaType.APPLICATION_JSON_VALUE,
-				schema = @Schema(implementation = ResponseClienteDTO.class)
+				schema = @Schema(implementation = RegistraClienteOutput.class)
 		)
 })
 public @interface ApiResponseCreateJsonCliente  {}
