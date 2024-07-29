@@ -33,11 +33,11 @@ public class CartaoVo {
         }
 
         if(dataValidade == null || dataValidade.isBlank() || !dataValidade.matches("\\d{2}\\/\\d{2}")){
-            throw new ArgumentoObrigatorioException("Data inválida é obrigatória");
+            throw new ArgumentoObrigatorioException("Data inválida");
         }
 
         if(cvv == null || cvv.isBlank() || !cvv.matches("\\d{3,4}")){
-            throw new ArgumentoObrigatorioException("CVV inválido do cartão é obrigatório");
+            throw new ArgumentoObrigatorioException("CVV inválido");
         }
 
         this.cliente = cliente;
