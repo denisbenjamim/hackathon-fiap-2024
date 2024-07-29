@@ -1,6 +1,7 @@
 package br.com.fiap.hackathon.spring.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import br.com.fiap.hackathon.core.exception.BusinessException;
 import br.com.fiap.hackathon.core.vo.cartao.CartaoVo;
@@ -19,8 +20,8 @@ public class CartaoEntity {
     @Column(name = "qt_limite")
     BigDecimal limite = BigDecimal.ZERO;
     
-    @Column(length = 5, name = "dt_validade")
-    String dataValidade;
+    @Column(name = "dt_validade")
+    LocalDate dataValidade;
     
     @Column(length = 4, name = "cd_cvv")
     String cvv;

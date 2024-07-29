@@ -1,6 +1,10 @@
 package br.com.fiap.hackathon.core.vo.cartao;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 import br.com.fiap.hackathon.core.exception.ArgumentoObrigatorioException;
@@ -12,10 +16,22 @@ public class CartaoVo {
     final ClienteVo cliente;
     final BigDecimal limite;
     final String numero;
-    final String dataValidade;
+    final LocalDate dataValidade;
     final String cvv;
 
     public CartaoVo(ClienteVo cliente, BigDecimal limite, String numero, String dataValidade, String cvv) throws BusinessException {
+        this(cliente, limite, numero, parseDataValidade(dataValidade), cvv);
+    }
+
+    private static LocalDate parseDataValidade(String dataValidade) throws ArgumentoObrigatorioException {
+        try {
+            return YearMonth.parse(dataValidade, DateTimeFormatter.ofPattern("MM/yy")).atEndOfMonth();
+        } catch (DateTimeParseException e) {
+            throw new ArgumentoObrigatorioException("Data inválida");
+        }
+    }
+
+    public CartaoVo(ClienteVo cliente, BigDecimal limite, String numero, LocalDate dataValidade, String cvv) throws BusinessException {
         if(Objects.isNull(cliente)){
             throw new ArgumentoObrigatorioException("Cliente do cartão é obrigatório");
         }
@@ -32,7 +48,7 @@ public class CartaoVo {
             throw new ArgumentoObrigatorioException("Formato número cartão é inválido");
         }
 
-        if(dataValidade == null || dataValidade.isBlank() || !dataValidade.matches("\\d{2}\\/\\d{2}")){
+        if(dataValidade == null){
             throw new ArgumentoObrigatorioException("Data inválida");
         }
 
@@ -59,7 +75,7 @@ public class CartaoVo {
         return numero;
     }
 
-    public String getDataValidade() {
+    public LocalDate getDataValidade() {
         return dataValidade;
     }
 

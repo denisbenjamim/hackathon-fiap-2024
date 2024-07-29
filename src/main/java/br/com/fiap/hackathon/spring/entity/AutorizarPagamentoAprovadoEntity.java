@@ -3,8 +3,12 @@ package br.com.fiap.hackathon.spring.entity;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import br.com.fiap.hackathon.core.vo.pagamento.AutorizarPagamentoAprovadoVo;
+import br.com.fiap.hackathon.core.vo.pagamento.StatusPagamento;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,8 +19,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_pagamento")
-public class PagamentoEntity {
+@Table(name = "tb_pagamento_aprovado")
+public class AutorizarPagamentoAprovadoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -30,18 +34,30 @@ public class PagamentoEntity {
     })
     CartaoEntity cartao;
 
-    @Column(name = "vl_pagamento", nullable = false)
+    @Column(name = "vl_pagamento")
     BigDecimal valor = BigDecimal.ZERO;
 
-    @Column(name = "ds_pagamento", nullable = false)
+    @Column(name = "ds_pagamento")
     String descricao;
 
     @Column(name = "tp_pagamento", nullable = false)
-    String tipoPagamento;
-
+    String tipoPagamento = "cartao_credito";
+    
+    @Enumerated(EnumType.STRING)
     @Column(name = "tp_situacao", nullable = false)
-    String status;
+    StatusPagamento status = StatusPagamento.APROVADO;
 
+    
+
+    public AutorizarPagamentoAprovadoEntity(AutorizarPagamentoAprovadoVo autorizacao) {
+        this.chave = null;
+        this.cartao = new CartaoEntity(autorizacao.getCartao());
+        this.valor = autorizacao.getValor();
+        this.descricao = "";
+    }
+
+    public AutorizarPagamentoAprovadoEntity() {
+    }
     public UUID getChave() {
         return chave;
     }

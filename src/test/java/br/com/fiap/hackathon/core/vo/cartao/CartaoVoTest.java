@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import java.math.BigDecimal;
-
+import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,14 +33,14 @@ class CartaoVoTest {
 
     @Test
     void validarSePropriedadeClienteNull() {
-       final Throwable throwable = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(null, null, null, null, null));
+       final Throwable throwable = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(null, null, null, (LocalDate)null, null));
        assertEquals("Cliente do cartão é obrigatório", throwable.getMessage());
     }
 
     @Test
     void validarSePropriedadeLimiteNullOuMenorQue1() {
-       final Throwable retornoNull = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, null, null, null, null));
-       final Throwable retornoMenor = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ZERO, null, null, null));
+       final Throwable retornoNull = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, null, null, (LocalDate)null, null));
+       final Throwable retornoMenor = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ZERO, null, (LocalDate)null, null));
       
        assertEquals("Limite do cartão é inválido", retornoNull.getMessage());
        assertEquals("Limite do cartão é inválido", retornoMenor.getMessage());
@@ -48,8 +48,8 @@ class CartaoVoTest {
 
     @Test
     void validarSePropriedadeNumeroNullOuVazio() {
-       final Throwable retornoNull = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, null, null, null));
-       final Throwable retornoMenor = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "", null, null));
+       final Throwable retornoNull = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, null, (LocalDate)null, null));
+       final Throwable retornoMenor = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "", (LocalDate)null, null));
       
        assertEquals("Número do cartão é obrigatório", retornoNull.getMessage());
        assertEquals("Número do cartão é obrigatório", retornoMenor.getMessage());
@@ -57,9 +57,9 @@ class CartaoVoTest {
 
     @Test
     void validarSePropriedadeNumeroEstaNoFormatoEsperado() {
-       final Throwable retorno1 = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "1234 1234 1234 12345", null, null));
-       final Throwable retorno2 = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "1234123412341234", null, null));
-       final Throwable retorno3 = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "1234-1234-1234-1234", null, null));
+       final Throwable retorno1 = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "1234 1234 1234 12345", (LocalDate)null, null));
+       final Throwable retorno2 = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "1234123412341234", (LocalDate)null, null));
+       final Throwable retorno3 = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "1234-1234-1234-1234", (LocalDate)null, null));
       
        assertEquals("Formato número cartão é inválido", retorno1.getMessage());
        assertEquals("Formato número cartão é inválido", retorno2.getMessage());
@@ -68,7 +68,7 @@ class CartaoVoTest {
 
     @Test
     void validarSePropriedadeDataValidadeEstaNoFormatoEsperado() {
-       final Throwable retorno1 = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "1234 1234 1234 1234", null, null));
+       final Throwable retorno1 = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "1234 1234 1234 1234", (LocalDate)null, null));
        final Throwable retorno2 = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "1234 1234 1234 1234", "", null));
        final Throwable retorno3 = assertThrowsExactly(ArgumentoObrigatorioException.class, () -> new CartaoVo(clienteVo, BigDecimal.ONE, "1234 1234 1234 1234", "1/24", null));
       
@@ -98,4 +98,4 @@ class CartaoVoTest {
         assertNotNull(cartao1);
         assertNotNull(cartao2);
     }
-}
+   }

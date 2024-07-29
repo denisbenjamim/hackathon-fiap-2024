@@ -63,7 +63,7 @@ public class CartoesControllerTest {
             .when()
                 .post("/api/cartao")
             .then()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .statusCode(HttpStatus.SC_FORBIDDEN)
                 .body("message", is("Cliente já possui a quantidade maxima permitida de cartões"))
         ;
 

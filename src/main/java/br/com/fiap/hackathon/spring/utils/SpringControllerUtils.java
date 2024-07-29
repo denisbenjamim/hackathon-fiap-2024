@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import br.com.fiap.hackathon.core.exception.BusinessException;
-import br.com.fiap.hackathon.core.exception.EntidadeNaoEncontrada;
+import br.com.fiap.hackathon.core.exception.EntidadeNaoEncontradaException;
 
 
 
@@ -23,15 +23,18 @@ public class SpringControllerUtils {
     		}
     		
             return ResponseEntity.status(httpStatus).body(acao.get());
-        } catch (EntidadeNaoEncontrada e){
+        } catch (EntidadeNaoEncontradaException ex){
+			ex.printStackTrace();
 			return ResponseEntity
 					.status(HttpStatus.NOT_FOUND)
-					.body(MessageErrorHandler.create(e.getMessage()));
+					.body(MessageErrorHandler.create(ex.getMessage()));
 		}catch(BusinessException ex) {
+			ex.printStackTrace();
         	return ResponseEntity
-    			.status(HttpStatus.BAD_REQUEST)
+    			.status(ex.getStatusCode())
 				.body(MessageErrorHandler.create(ex.getMessage()));
 	    } catch (Exception ex) {
+			ex.printStackTrace();
 	        return ResponseEntity
         		.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(MessageErrorHandler.create(ex.getMessage()));

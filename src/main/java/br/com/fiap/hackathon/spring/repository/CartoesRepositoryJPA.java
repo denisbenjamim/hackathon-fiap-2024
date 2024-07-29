@@ -10,7 +10,7 @@ import br.com.fiap.hackathon.spring.entity.ClienteCartaoEmbeddable;
 
 @Repository
 public interface CartoesRepositoryJPA extends JpaRepository<CartaoEntity, ClienteCartaoEmbeddable>{
-    
     public boolean existsByIdNumero(String numero);
     public List<CartaoEntity> findAllByIdClienteCpf(String cpf);
+    public CartaoEntity findByIdNumeroAndIdClienteCpf(String numero, String cpf);
 }

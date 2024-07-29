@@ -9,4 +9,5 @@ public interface CartoesRepository {
     public void gerar(CartaoVo cartao) throws BusinessException;
     public boolean buscarPorNumeroExistente(String numero);
     public List<CartaoVo> buscarTodosCartoesClientePorCPF(String cpf) throws BusinessException;
+    public CartaoVo buscarCartaoClientePor(String numero, String cpf) throws BusinessException;
 }
