@@ -15,6 +15,10 @@ import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseBadRequ
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJson;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponsePaymentRequiredJson;
 import br.com.fiap.hackathon.spring.utils.SpringControllerUtils;
+import jakarta.websocket.server.PathParam;
+
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("/api/pagamentos")
@@ -31,4 +35,10 @@ public class PagamentosController extends PagamentoController {
     public ResponseEntity<?> autorizarPagamento(@RequestBody AutorizarPagamentoInput request ){
         return SpringControllerUtils.response(HttpStatus.CREATED, () -> autorizar(request));
     }
+
+    @GetMapping("/cliente/{Chave}")
+    public ResponseEntity<?> consultarPagamentos(@PathParam("Chave") String cpf) {
+        return SpringControllerUtils.response(HttpStatus.CREATED, () -> consultarPagamentosCliente(cpf));
+    }
+    
 }

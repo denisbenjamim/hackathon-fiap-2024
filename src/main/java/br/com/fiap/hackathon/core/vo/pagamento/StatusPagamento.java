@@ -1,10 +1,8 @@
 package br.com.fiap.hackathon.core.vo.pagamento;
 
-public enum StatusPagamento {
-    APROVADO, RECUSADO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    @Override
-    public String toString() {
-        return super.toString().toLowerCase();
-    }
+public enum StatusPagamento {
+    @JsonProperty("validando") VALIDANDO, @JsonProperty("aprovado") APROVADO, @JsonProperty("recusado")RECUSADO;
+
 }

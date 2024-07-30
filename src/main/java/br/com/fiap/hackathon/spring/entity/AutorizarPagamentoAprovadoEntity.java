@@ -3,7 +3,7 @@ package br.com.fiap.hackathon.spring.entity;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import br.com.fiap.hackathon.core.vo.pagamento.AutorizarPagamentoAprovadoVo;
+import br.com.fiap.hackathon.core.vo.pagamento.AutorizacaoPagamentoVo;
 import br.com.fiap.hackathon.core.vo.pagamento.StatusPagamento;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,7 +49,7 @@ public class AutorizarPagamentoAprovadoEntity {
 
     
 
-    public AutorizarPagamentoAprovadoEntity(AutorizarPagamentoAprovadoVo autorizacao) {
+    public AutorizarPagamentoAprovadoEntity(AutorizacaoPagamentoVo autorizacao) {
         this.chave = null;
         this.cartao = new CartaoEntity(autorizacao.getCartao());
         this.valor = autorizacao.getValor();
@@ -77,5 +77,16 @@ public class AutorizarPagamentoAprovadoEntity {
         this.valor = valor;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public String getTipoPagamento() {
+        return tipoPagamento;
+    }
+
+    public StatusPagamento getStatus() {
+        return status;
+    }
     
 }

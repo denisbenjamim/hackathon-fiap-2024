@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.fiap.hackathon.core.exception.ArgumentoObrigatorioException;
 import br.com.fiap.hackathon.core.exception.BusinessException;
 import br.com.fiap.hackathon.core.vo.cartao.CartaoVo;
-import br.com.fiap.hackathon.core.vo.pagamento.AutorizarPagamentoAprovadoVo;
+import br.com.fiap.hackathon.core.vo.pagamento.AutorizacaoPagamentoVo;
 
 public record AutorizarPagamentoInput(
     String cpf,
@@ -17,6 +19,7 @@ public record AutorizarPagamentoInput(
     String cvv,
     BigDecimal valor
 ) {
+    @JsonIgnore
     public LocalDate getDataValidade() throws BusinessException {
         try {
             if(data_validade == null || data_validade.isBlank() || !data_validade.matches("\\d{2}\\/\\d{2}")){
@@ -28,8 +31,9 @@ public record AutorizarPagamentoInput(
             throw new ArgumentoObrigatorioException("Data inválida");
         }
     }
-
-    public AutorizarPagamentoAprovadoVo toVo(CartaoVo cartao){
-        return new AutorizarPagamentoAprovadoVo(valor, cartao);
+    
+    @JsonIgnore
+    public AutorizacaoPagamentoVo toVo(CartaoVo cartao) throws ArgumentoObrigatorioException{
+        return new AutorizacaoPagamentoVo(valor, cartao);
     }
 }

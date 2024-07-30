@@ -43,6 +43,10 @@ public class CartaoRepositoryImpl implements CartoesRepository {
     public CartaoVo buscarCartaoClientePor(String numero, String cpf) throws BusinessException {
         final CartaoEntity entity = repository.findByIdNumeroAndIdClienteCpf(numero, cpf);
 
+        if(entity == null){
+           return null;
+        }
+
         return entity.toVo();
     }
     

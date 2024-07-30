@@ -1,7 +1,9 @@
 package br.com.fiap.hackathon.core.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import br.com.fiap.hackathon.core.exception.ArgumentoObrigatorioException;
 import br.com.fiap.hackathon.core.exception.BusinessException;
 import br.com.fiap.hackathon.core.exception.CartaoCVVInvalidoExcepetion;
 import br.com.fiap.hackathon.core.exception.CartaoDataValidaInvalidaExcepetion;
@@ -11,20 +13,28 @@ import br.com.fiap.hackathon.core.gateway.CartoesRepository;
 import br.com.fiap.hackathon.core.input.AutorizarPagamentoInput;
 import br.com.fiap.hackathon.core.output.Output;
 import br.com.fiap.hackathon.core.usecases.cartao.BuscaCartaoUseCase;
-import br.com.fiap.hackathon.core.usecases.pagamento.AutorizarPagamentoUseCase;
+import br.com.fiap.hackathon.core.usecases.pagamento.AutorizaPagamentoUseCase;
+import br.com.fiap.hackathon.core.usecases.pagamento.ConsultaPagamentosUseCase;
 import br.com.fiap.hackathon.core.vo.cartao.CartaoVo;
-import br.com.fiap.hackathon.core.vo.pagamento.AutorizarPagamentoAprovadoVo;
+import br.com.fiap.hackathon.core.vo.pagamento.AutorizacaoPagamentoVo;
+import io.micrometer.common.util.StringUtils;
 
 public abstract class PagamentoController {
     final BuscaCartaoUseCase buscaCartaoUseCase;
-    final AutorizarPagamentoUseCase autorizarPagamentoUseCase;
+    final AutorizaPagamentoUseCase autorizarPagamentoUseCase;
+    final ConsultaPagamentosUseCase consultaPagamentosUseCase;
 
     public PagamentoController(AutorizarPagamentosRepository repository, CartoesRepository cartoesRepository) {
-        this.autorizarPagamentoUseCase = new AutorizarPagamentoUseCase(repository);
+        this.autorizarPagamentoUseCase = new AutorizaPagamentoUseCase(repository);
         this.buscaCartaoUseCase = new BuscaCartaoUseCase(cartoesRepository);
+        this.consultaPagamentosUseCase = new ConsultaPagamentosUseCase(repository);
     }
 
     protected Output autorizar(AutorizarPagamentoInput input) throws BusinessException{
+        if(validarInput(input)){
+            throw new ArgumentoObrigatorioException("Valide os dados enviados para autorização");
+        }
+
         try{
             final CartaoVo cartao = buscaCartaoUseCase.buscarCartaoClientePor(input.numero(), input.cpf());
             
@@ -42,7 +52,7 @@ public abstract class PagamentoController {
                 throw new CartaoCVVInvalidoExcepetion();
             } 
             
-            final AutorizarPagamentoAprovadoVo vo = input.toVo(cartao);
+            final AutorizacaoPagamentoVo vo = input.toVo(cartao);
             
             return autorizarPagamentoUseCase.aprovar(vo);
         } catch(BusinessException exception){
@@ -51,4 +61,18 @@ public abstract class PagamentoController {
             throw exception;
         }
     }
+
+    private boolean validarInput(AutorizarPagamentoInput input) {
+        return input == null ||
+        StringUtils.isBlank(input.cpf()) || 
+        StringUtils.isBlank(input.cvv()) || 
+        StringUtils.isBlank(input.data_validade()) || 
+        StringUtils.isBlank(input.numero()) || 
+        input.valor() == null;
+    }
+
+    protected List<Output> consultarPagamentosCliente(String cpf) throws BusinessException {
+        return consultaPagamentosUseCase.consultarPagamentosPorCliente(cpf) ;
+    }
+
 }
