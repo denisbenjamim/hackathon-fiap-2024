@@ -17,7 +17,7 @@ public class AutenticacaoEntity {
 
     @Column(name = "cd_login", length = 10)
     String login;
-    @Column(name = "cd_hash_password", length = 10)
+    @Column(name = "cd_hash_password")
     String password;
     
     public Integer getCodigo() {
