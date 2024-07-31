@@ -47,8 +47,6 @@ public class AutorizarPagamentoAprovadoEntity {
     @Column(name = "tp_situacao")
     StatusPagamento status = StatusPagamento.APROVADO;
 
-    
-
     public AutorizarPagamentoAprovadoEntity(AutorizacaoPagamentoVo autorizacao) {
         this.chave = null;
         this.cartao = new CartaoEntity(autorizacao.getCartao());

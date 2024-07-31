@@ -27,7 +27,8 @@ public class AutorizacaoPagamentoVo {
         }
         
         
-        if(BigDecimal.ONE.compareTo(valor) == 1){
+        int MENOR_QUE_UM = -1;
+        if(valor == null || valor.compareTo(BigDecimal.ONE) == MENOR_QUE_UM){
             throw new ArgumentoObrigatorioException("Valor em Autorizaçao pagamento não pode ser menor que zero");
         }
 
@@ -35,6 +36,8 @@ public class AutorizacaoPagamentoVo {
         this.valor = valor;
         this.cartao = cartao;
     }
+
+
 
     public CartaoVo getCartao() {
         return cartao;
@@ -44,12 +47,15 @@ public class AutorizacaoPagamentoVo {
         return valor;
     }
 
-    public UUID getCodigo() {
-        return codigo;
+    public StatusPagamento getStatusPagamento(){
+        return this.statusPagamento;
     }
 
     public void mudarStatusPagamentoParaAprovado() throws BusinessException{
-        if(StatusPagamento.VALIDANDO.equals(this.statusPagamento)){
+        if(
+            StatusPagamento.VALIDANDO.equals(this.statusPagamento) || 
+            StatusPagamento.APROVADO.equals(this.statusPagamento)
+        ){
             this.statusPagamento = StatusPagamento.APROVADO;
             return;
         }
@@ -58,7 +64,10 @@ public class AutorizacaoPagamentoVo {
     }
 
     public void mudarStatusPagamentoParaRecusado() throws BusinessException {
-        if(StatusPagamento.VALIDANDO.equals(this.statusPagamento)){
+        if(
+            StatusPagamento.VALIDANDO.equals(this.statusPagamento) ||
+            StatusPagamento.RECUSADO.equals(this.statusPagamento)
+        ){
             this.statusPagamento = StatusPagamento.RECUSADO;
             return;
         }

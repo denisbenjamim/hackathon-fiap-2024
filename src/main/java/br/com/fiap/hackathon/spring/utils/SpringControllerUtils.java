@@ -5,9 +5,11 @@ import org.springframework.http.ResponseEntity;
 
 import br.com.fiap.hackathon.core.exception.BusinessException;
 import br.com.fiap.hackathon.core.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.hackathon.infra.Generated;
 
 
 
+@Generated
 public class SpringControllerUtils {
 	/**
 	 * Gerar ReponseEntity para Controllers, ja possui tratamento padrão de erros
