@@ -1,5 +1,6 @@
 package br.com.fiap.hackathon.infra.adapter.repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -60,6 +61,11 @@ public class AutorizarPagamentoRepositoryImpl implements AutorizarPagamentosRepo
         );
         
         return autorizacoesCliente;
+    }
+
+    @Override
+    public BigDecimal consultarValorTotalDePagamentoPorClienteECartao(String cpf, String numeroCartao) {
+        return aprovadoRepositoryJPA.findTotalPagamentosByCpfAAndCartao(cpf,numeroCartao);
     }
 
 }

@@ -1,5 +1,6 @@
 package br.com.fiap.hackathon.core.gateway;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,5 +13,5 @@ public interface AutorizarPagamentosRepository {
     UUID autorizar(AutorizacaoPagamentoVo autorizacao);
     UUID operacaoRecusada(AutorizarPagamentoInput autorizacao);
     List<Output> consultarPagamentosPorClientes(String cpf);
-    
+    BigDecimal consultarValorTotalDePagamentoPorClienteECartao(String cpf, String numeroCartao);
 }
