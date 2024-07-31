@@ -84,6 +84,44 @@ public class PagamentosControllerTest {
                     .statusCode(HttpStatus.SC_OK)
             ;
         }
+
+        @Test
+        void naoDeveAutorizarPagamentoCaseLimiteUltrapasse() {
+            given()
+                    .contentType(ContentType.JSON)
+                    .body("""
+                    {
+                        "cpf": "12345678901",
+                        "numero": "1111 2222 3333 4441",
+                        "data_validade": "12/24",
+                        "cvv": "123",
+                        "valor": 500
+                    } 
+                """)
+                    .when()
+                    .post("/api/pagamentos")
+                    .then()
+                    .statusCode(HttpStatus.SC_OK)
+            ;
+
+            given()
+                    .contentType(ContentType.JSON)
+                    .body("""
+                    {
+                        "cpf": "12345678901",
+                        "numero": "1111 2222 3333 4441",
+                        "data_validade": "12/24",
+                        "cvv": "123",
+                        "valor": 50000
+                    } 
+                """)
+                    .when()
+                        .post("/api/pagamentos")
+                    .then()
+                        .statusCode(HttpStatus.SC_PAYMENT_REQUIRED)
+                        .body("message", is("Cartão sem limite disponivel"))
+            ;
+        }
     
         @Test
         void naoDeveAutorizarPagamentoCasoCpfClienteInvalido() {
