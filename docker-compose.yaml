@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+#APLICACAO      
+  hackaton:
+    container_name: hackaton
+    mem_limit: 512M
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - hackaton_grupo_11_network      
+
+##CONFIG NETWORKS
+networks:
+  hackaton_grupo_11_network:
+    driver: bridge
