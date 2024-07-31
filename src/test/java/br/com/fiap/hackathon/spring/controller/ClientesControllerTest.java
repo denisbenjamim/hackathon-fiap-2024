@@ -47,7 +47,7 @@ class ClientesControllerTest {
             .when()
                 .post("/api/cliente")
             .then()
-                .statusCode(HttpStatus.SC_CREATED)
+                .statusCode(HttpStatus.SC_OK)
                 .body("id_cliente",is("11111111111"))
         ;
     }
@@ -72,7 +72,7 @@ class ClientesControllerTest {
             .when()
                 .post("/api/cliente")
             .then()
-                .statusCode(HttpStatus.SC_CREATED)
+                .statusCode(HttpStatus.SC_OK)
                 .body("id_cliente",is("11111111112"))
         ;
 
@@ -94,7 +94,7 @@ class ClientesControllerTest {
         .when()
             .post("/api/cliente")
         .then()
-            .statusCode(HttpStatus.SC_BAD_REQUEST)
+            .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
             .body("message",is("Cliente já cadastrado"))
     ;
     }

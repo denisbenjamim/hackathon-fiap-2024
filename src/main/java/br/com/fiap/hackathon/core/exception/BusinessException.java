@@ -1,7 +1,7 @@
 package br.com.fiap.hackathon.core.exception;
 
 public class BusinessException extends Exception {
-    int statusCode = 400;
+    int statusCode = 500;
 
     public BusinessException(String message){
         super(message);

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.fiap.hackathon.core.exception.ArgumentoObrigatorioException;
@@ -22,7 +23,8 @@ public record AutorizarPagamentoInput(
     @JsonIgnore
     public LocalDate getDataValidade() throws BusinessException {
         try {
-            if(data_validade == null || data_validade.isBlank() || !data_validade.matches("\\d{2}\\/\\d{2}")){
+            
+            if(!data_validade.matches("\\d{2}\\/\\d{2}")){
                 throw new ArgumentoObrigatorioException("Data inválida");
             }
 

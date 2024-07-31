@@ -12,12 +12,13 @@ import br.com.fiap.hackathon.core.gateway.AutorizarPagamentosRepository;
 import br.com.fiap.hackathon.core.gateway.CartoesRepository;
 import br.com.fiap.hackathon.core.input.AutorizarPagamentoInput;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseBadRequestJson;
-import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJson;
+import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJsonAutorizacaoPagamento;
+import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJsonConsultaPagamentosCliente;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponsePaymentRequiredJson;
+import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseServerErrorJson;
 import br.com.fiap.hackathon.spring.utils.SpringControllerUtils;
-import jakarta.websocket.server.PathParam;
-
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -29,16 +30,18 @@ public class PagamentosController extends PagamentoController {
     }
 
     @PostMapping
-    @ApiResponseOkJson
+    @ApiResponseOkJsonAutorizacaoPagamento
     @ApiResponsePaymentRequiredJson
     @ApiResponseBadRequestJson
     public ResponseEntity<?> autorizarPagamento(@RequestBody AutorizarPagamentoInput request ){
-        return SpringControllerUtils.response(HttpStatus.CREATED, () -> autorizar(request));
+        return SpringControllerUtils.response(HttpStatus.OK, () -> autorizar(request));
     }
 
     @GetMapping("/cliente/{Chave}")
-    public ResponseEntity<?> consultarPagamentos(@PathParam("Chave") String cpf) {
-        return SpringControllerUtils.response(HttpStatus.CREATED, () -> consultarPagamentosCliente(cpf));
+    @ApiResponseOkJsonConsultaPagamentosCliente
+    @ApiResponseServerErrorJson
+    public ResponseEntity<?> consultarPagamentos(@PathVariable("Chave") String cpf) {
+        return SpringControllerUtils.response(HttpStatus.OK, () -> consultarPagamentosCliente(cpf));
     }
     
 }

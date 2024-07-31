@@ -44,7 +44,7 @@ public abstract class PagamentoController {
                 throw new CartaoSemLimiteExcepetion();
             }
             
-            if(!cartao.getDataValidade().isEqual(input.getDataValidade()) && cartao.getDataValidade().isAfter(LocalDate.now())){
+            if(!cartao.getDataValidade().isEqual(input.getDataValidade()) || LocalDate.now().isAfter(cartao.getDataValidade())){
                 throw new CartaoDataValidaInvalidaExcepetion();
             }
             
@@ -63,7 +63,7 @@ public abstract class PagamentoController {
     }
 
     private boolean validarInput(AutorizarPagamentoInput input) {
-        return input == null ||
+        return 
         StringUtils.isBlank(input.cpf()) || 
         StringUtils.isBlank(input.cvv()) || 
         StringUtils.isBlank(input.data_validade()) || 

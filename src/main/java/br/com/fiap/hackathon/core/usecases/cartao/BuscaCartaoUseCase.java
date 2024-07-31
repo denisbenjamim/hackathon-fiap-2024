@@ -12,10 +12,6 @@ public class BuscaCartaoUseCase {
         this.repository = repository;
     }
 
-    public boolean buscarPorNumeroExistente(String numero){
-        return repository.buscarPorNumeroExistente(numero);
-    }
-
     public CartaoVo  buscarCartaoClientePor(String numero, String cpf) throws BusinessException {
         final CartaoVo vo = repository.buscarCartaoClientePor(numero, cpf);
         

@@ -8,12 +8,12 @@ import java.lang.annotation.Target;
 
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseServerErrorJson;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseBadRequestJson;
-import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseCreateJsonCliente;
+import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJsonCliente;
 
 
 @Retention(RUNTIME)
 @Target({ METHOD })
-@ApiResponseCreateJsonCliente
+@ApiResponseOkJsonCliente
 @ApiResponseBadRequestJson
 @ApiResponseServerErrorJson
-public @interface ApiResponseCliente_201_400_500 {}
+public @interface ApiResponseCliente_200_400_500 {}

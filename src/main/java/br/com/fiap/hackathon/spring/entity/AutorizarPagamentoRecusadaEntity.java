@@ -31,11 +31,11 @@ public class AutorizarPagamentoRecusadaEntity {
     @Column(name = "vl_pagamento")
     BigDecimal valor = BigDecimal.ZERO;
 
-    @Column(name = "tp_pagamento", nullable = false)
+    @Column(name = "tp_pagamento")
     String tipoPagamento = "cartao_credito";
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tp_situacao", nullable = false)
+    @Column(name = "tp_situacao")
     StatusPagamento status = StatusPagamento.RECUSADO;
 
     public AutorizarPagamentoRecusadaEntity(AutorizarPagamentoInput autorizacao) {
@@ -49,38 +49,13 @@ public class AutorizarPagamentoRecusadaEntity {
     public UUID getChave() {
         return chave;
     }
-    public void setChave(UUID chave) {
-        this.chave = chave;
-    }
-    public String getNumero() {
-        return numero;
-    }
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-    public String getCodigoCliente() {
-        return codigoCliente;
-    }
-    public void setCodigoCliente(String codigoCliente) {
-        this.codigoCliente = codigoCliente;
-    }
+    
     public BigDecimal getValor() {
         return valor;
     }
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-    public String getTipoPagamento() {
-        return tipoPagamento;
-    }
-    public void setTipoPagamento(String tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
-    }
+    
     public StatusPagamento getStatus() {
         return status;
     }
-    public void setStatus(StatusPagamento status) {
-        this.status = status;
-    }
-        
+            
 }

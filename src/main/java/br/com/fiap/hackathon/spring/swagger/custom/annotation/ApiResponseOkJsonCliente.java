@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @Target({ TYPE, METHOD })
 
 @ApiResponse(
-	responseCode = "201", 
+	responseCode = "200", 
 	description = "Operação realizada com sucesso.",
     content = { 
 		@Content(
@@ -26,4 +26,4 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 				schema = @Schema(implementation = RegistraClienteOutput.class)
 		)
 })
-public @interface ApiResponseCreateJsonCliente  {}
+public @interface ApiResponseOkJsonCliente  {}

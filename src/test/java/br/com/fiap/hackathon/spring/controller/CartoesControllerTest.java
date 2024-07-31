@@ -43,7 +43,7 @@ public class CartoesControllerTest {
             .when()
                 .post("/api/cartao")
             .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT)
+                .statusCode(HttpStatus.SC_OK)
         ;
     }
 
@@ -85,7 +85,7 @@ public class CartoesControllerTest {
             .when()
                 .post("/api/cartao")
             .then()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
                 .body("message", is("Cartão já cadastrado"))
         ;
 

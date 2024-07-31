@@ -7,7 +7,7 @@ import br.com.fiap.hackathon.core.controller.CartaoController;
 import br.com.fiap.hackathon.core.gateway.CartoesRepository;
 import br.com.fiap.hackathon.core.gateway.ClientesRepository;
 import br.com.fiap.hackathon.core.input.CartaoInput;
-import br.com.fiap.hackathon.spring.swagger.custom.ApiResponse_204_400_500;
+import br.com.fiap.hackathon.spring.swagger.custom.ApiResponse_200_401_403_500;
 import br.com.fiap.hackathon.spring.utils.SpringControllerUtils;
 
 import org.springframework.http.HttpStatus;
@@ -25,9 +25,9 @@ public class CartoesController extends CartaoController {
     }
 
     @PostMapping
-    @ApiResponse_204_400_500
+    @ApiResponse_200_401_403_500
     public ResponseEntity<?> gerarCartao(@RequestBody CartaoInput request) {
-        return SpringControllerUtils.response(HttpStatus.NO_CONTENT, () -> {
+        return SpringControllerUtils.response(HttpStatus.OK, () -> {
             gerar(request);
             return null;
         });

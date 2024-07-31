@@ -9,20 +9,21 @@ import java.lang.annotation.Target;
 
 import org.springframework.http.MediaType;
 
-import br.com.fiap.hackathon.spring.utils.MessageErrorHandler;
+import br.com.fiap.hackathon.core.output.AutorizarPagamentoOutput;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @Retention(RUNTIME)
 @Target({ TYPE, METHOD })
+
 @ApiResponse(
-	responseCode = "500", 
-	description = "Validação regra de negócio.",
+	responseCode = "200", 
+	description = "Operação realizada com sucesso.",
     content = { 
 		@Content(
-			mediaType = MediaType.APPLICATION_JSON_VALUE,
-			schema = @Schema(implementation = MessageErrorHandler.class)
+				mediaType = MediaType.APPLICATION_JSON_VALUE,
+				schema = @Schema(implementation = AutorizarPagamentoOutput.class)
 		)
 })
-public @interface ApiResponseServerErrorJson  {}
+public @interface ApiResponseOkJsonAutorizacaoPagamento  {}

@@ -40,11 +40,11 @@ public class AutorizarPagamentoAprovadoEntity {
     @Column(name = "ds_pagamento")
     String descricao;
 
-    @Column(name = "tp_pagamento", nullable = false)
+    @Column(name = "tp_pagamento")
     String tipoPagamento = "cartao_credito";
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "tp_situacao", nullable = false)
+    @Column(name = "tp_situacao")
     StatusPagamento status = StatusPagamento.APROVADO;
 
     
@@ -61,30 +61,11 @@ public class AutorizarPagamentoAprovadoEntity {
     public UUID getChave() {
         return chave;
     }
-    public void setChave(UUID chave) {
-        this.chave = chave;
-    }
-    public CartaoEntity getCartao() {
-        return cartao;
-    }
-    public void setCartao(CartaoEntity cartao) {
-        this.cartao = cartao;
-    }
+    
     public BigDecimal getValor() {
         return valor;
     }
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public String getTipoPagamento() {
-        return tipoPagamento;
-    }
-
+    
     public StatusPagamento getStatus() {
         return status;
     }

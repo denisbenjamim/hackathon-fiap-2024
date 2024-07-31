@@ -24,17 +24,14 @@ public class SpringControllerUtils {
     		
             return ResponseEntity.status(httpStatus).body(acao.get());
         } catch (EntidadeNaoEncontradaException ex){
-			ex.printStackTrace();
 			return ResponseEntity
 					.status(HttpStatus.NOT_FOUND)
 					.body(MessageErrorHandler.create(ex.getMessage()));
 		}catch(BusinessException ex) {
-			ex.printStackTrace();
         	return ResponseEntity
     			.status(ex.getStatusCode())
 				.body(MessageErrorHandler.create(ex.getMessage()));
 	    } catch (Exception ex) {
-			ex.printStackTrace();
 	        return ResponseEntity
         		.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(MessageErrorHandler.create(ex.getMessage()));
