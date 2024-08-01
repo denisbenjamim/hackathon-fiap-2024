@@ -1,6 +1,6 @@
 package br.com.fiap.hackathon.core.output;
 
-public class LoginResponseOutput {
+public class LoginResponseOutput implements Output {
     private String token;
 
     public LoginResponseOutput(String token) {
