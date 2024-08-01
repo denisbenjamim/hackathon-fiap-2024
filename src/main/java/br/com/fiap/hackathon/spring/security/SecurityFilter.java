@@ -1,15 +1,14 @@
-package br.com.fiap.hackathon.core.security;
-
+package br.com.fiap.hackathon.spring.security;
 
 import br.com.fiap.hackathon.core.services.TokenService;
 import br.com.fiap.hackathon.spring.entity.AutenticacaoEntity;
 import br.com.fiap.hackathon.spring.repository.AutenticacaoRepositoryJPA;
-import org.springframework.lang.NonNull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -20,11 +19,14 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
+    private final AutenticacaoRepositoryJPA userRepository;
 
     @Autowired
-    private AutenticacaoRepositoryJPA userRepository;
+    public SecurityFilter(TokenService tokenService, AutenticacaoRepositoryJPA userRepository) {
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+    }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
