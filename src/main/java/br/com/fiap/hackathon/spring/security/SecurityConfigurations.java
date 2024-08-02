@@ -20,10 +20,12 @@ public class SecurityConfigurations {
 
     private final SecurityFilter securityFilter;
     private final AuthorizationService authorizationService;
+    private final UnauthorizedEntryPoint unauthorizedEntryPoint;
 
-    public SecurityConfigurations(SecurityFilter securityFilter, AuthorizationService authorizationService) {
+    public SecurityConfigurations(SecurityFilter securityFilter, AuthorizationService authorizationService, UnauthorizedEntryPoint unauthorizedEntryPoint) {
         this.securityFilter = securityFilter;
         this.authorizationService = authorizationService;
+        this.unauthorizedEntryPoint = unauthorizedEntryPoint;
     }
 
     @Bean
@@ -36,6 +38,7 @@ public class SecurityConfigurations {
                         .requestMatchers("/api/autenticacao/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedEntryPoint))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .userDetailsService(authorizationService)

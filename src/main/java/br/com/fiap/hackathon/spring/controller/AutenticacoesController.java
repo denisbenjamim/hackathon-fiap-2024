@@ -7,7 +7,7 @@ import br.com.fiap.hackathon.core.output.LoginResponseOutput;
 import br.com.fiap.hackathon.core.services.TokenService;
 import br.com.fiap.hackathon.core.vo.autenticacao.AuthenticationVo;
 import br.com.fiap.hackathon.spring.entity.AutenticacaoEntity;
-import br.com.fiap.hackathon.spring.swagger.custom.ApiResponseCliente_200_400_500;
+import br.com.fiap.hackathon.spring.swagger.custom.ApiResponse_200_401_403_500;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,33 +32,21 @@ public class AutenticacoesController {
     }
 
     @PostMapping("/login")
-    @ApiResponseCliente_200_400_500
+    @ApiResponse_200_401_403_500
     public ResponseEntity<LoginResponseOutput> login(@RequestBody @Valid AuthenticationInput data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-        var token = this.tokenService.generateToken((AutenticacaoEntity) auth.getPrincipal());
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+            var token = this.tokenService.generateToken((AutenticacaoEntity) auth.getPrincipal(), 2); // Token expira em 2 minutos
 
-        return ResponseEntity.ok(new LoginResponseOutput(token));
-    }
-
-    @PostMapping("/currentUser")
-    public ResponseEntity<?> getUserByToken(@RequestParam("token") String token) throws BusinessException {
-        final String loginUsuario = tokenService.validateToken(token);
-
-        if (!StringUtils.hasText(loginUsuario)) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.ok(new LoginResponseOutput(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).build();
         }
-
-        var user = autenticacaoRepository.buscarPorLogin(loginUsuario);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(Map.of("idUsuario", user.getCodigo()));
     }
 
     @PostMapping("/register")
-    @ApiResponseCliente_200_400_500
+    @ApiResponse_200_401_403_500
     public ResponseEntity<Void> register(@RequestBody @Valid AuthenticationVo data) throws BusinessException {
         if (this.autenticacaoRepository.buscarPorLogin(data.getLogin()) != null) {
             return ResponseEntity.badRequest().build();
@@ -68,5 +56,36 @@ public class AutenticacoesController {
         this.autenticacaoRepository.salvar(user);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/token")
+    @ApiResponse_200_401_403_500
+    public ResponseEntity<LoginResponseOutput> generateLongLivedToken(@RequestBody @Valid AuthenticationInput data) {
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+            var token = this.tokenService.generateToken((AutenticacaoEntity) auth.getPrincipal(), 4); // Token expira em 4 minutos
+
+            return ResponseEntity.ok(new LoginResponseOutput(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).build();
+        }
+    }
+
+    @PostMapping("/currentUser")
+    @ApiResponse_200_401_403_500
+    public ResponseEntity<?> getUserByToken(@RequestParam("token") String token) throws BusinessException {
+        final String loginUsuario = tokenService.validateToken(token);
+
+        if (!StringUtils.hasText(loginUsuario)) {
+            return ResponseEntity.status(401).build();
+        }
+
+        var user = autenticacaoRepository.buscarPorLogin(loginUsuario);
+        if (user == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        return ResponseEntity.ok(Map.of("idUsuario", user.getCodigo()));
     }
 }

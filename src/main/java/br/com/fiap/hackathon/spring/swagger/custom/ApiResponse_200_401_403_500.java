@@ -10,11 +10,12 @@ import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseServerE
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseBadRequestJson;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseForbiddemJson;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJson;
-
+import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseUnauthorizedJson;
 
 @Retention(RUNTIME)
 @Target({ METHOD })
 @ApiResponseOkJson
+@ApiResponseUnauthorizedJson
 @ApiResponseForbiddemJson
 @ApiResponseBadRequestJson
 @ApiResponseServerErrorJson
