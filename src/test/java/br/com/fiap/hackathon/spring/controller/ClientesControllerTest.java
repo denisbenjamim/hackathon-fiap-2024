@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.is;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles({"default","test"})
-class ClientesControllerTest {
+class ClientesControllerTest extends AbstractControllerTest{
 
     @LocalServerPort
     int porta;
@@ -31,6 +31,7 @@ class ClientesControllerTest {
     void deveRegistrarCliente() {
         given()
             .contentType(ContentType.JSON)
+            .header(getAuthorization())
             .body("""
                 {
                     "cpf":"11111111111",
@@ -56,6 +57,7 @@ class ClientesControllerTest {
     void naoDeveRegistrarClienteRepetido() {
         given()
             .contentType(ContentType.JSON)
+            .header(getAuthorization())
             .body("""
                 {
                     "cpf":"11111111112",
@@ -77,25 +79,26 @@ class ClientesControllerTest {
         ;
 
         given()
-        .contentType(ContentType.JSON)
-        .body("""
-            {
-                "cpf":"11111111112",
-                "nome":"João da Silva",
-                "email":"joao@example.com",
-                "telefone":"+55 11 91234-5678",
-                "rua":"Rua A",
-                "cidade":"Cidade",
-                "estado":"Estado",
-                "cep":"12345-678",
-                "pais":"Brasil"
-            }  
-        """)
-        .when()
-            .post("/api/cliente")
-        .then()
-            .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-            .body("message",is("Cliente já cadastrado"))
+            .contentType(ContentType.JSON)
+            .header(getAuthorization())
+            .body("""
+                {
+                    "cpf":"11111111112",
+                    "nome":"João da Silva",
+                    "email":"joao@example.com",
+                    "telefone":"+55 11 91234-5678",
+                    "rua":"Rua A",
+                    "cidade":"Cidade",
+                    "estado":"Estado",
+                    "cep":"12345-678",
+                    "pais":"Brasil"
+                }  
+            """)
+            .when()
+                .post("/api/cliente")
+            .then()
+                .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                .body("message",is("Cliente já cadastrado"))
     ;
     }
 }

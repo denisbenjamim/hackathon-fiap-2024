@@ -16,7 +16,7 @@ import io.restassured.http.ContentType;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles({"default","test"})
-public class CartoesControllerTest {
+public class CartoesControllerTest  extends AbstractControllerTest{
 
     @LocalServerPort
     int porta;
@@ -30,6 +30,7 @@ public class CartoesControllerTest {
     @Test
     void deveGerarUmCartaoParaCliente() {
         given()
+            .header(getAuthorization())
             .contentType(ContentType.JSON)
             .body("""
                 {
@@ -50,6 +51,7 @@ public class CartoesControllerTest {
     @Test
     void naoDeveGerarUmCartaoParaClienteCasoJaTenhaAtingidoLimiteDeCartoes() {
         given()
+            .header(getAuthorization())
             .contentType(ContentType.JSON)
             .body("""
                 {
@@ -72,6 +74,7 @@ public class CartoesControllerTest {
     @Test
     void naoDeveGerarUmCartaoParaClienteCasoCartaoRepetido() {
         given()
+            .header(getAuthorization())
             .contentType(ContentType.JSON)
             .body("""
                 {
@@ -94,6 +97,7 @@ public class CartoesControllerTest {
     @Test
     void naoDeveGerarUmCartaoCasoClienteNaoRegistrado() {
         given()
+            .header(getAuthorization())
             .contentType(ContentType.JSON)
             .body("""
                 {
@@ -112,4 +116,5 @@ public class CartoesControllerTest {
         ;
 
     }
+
 }

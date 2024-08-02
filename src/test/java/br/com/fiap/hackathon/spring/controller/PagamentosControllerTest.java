@@ -19,7 +19,7 @@ import io.restassured.http.ContentType;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles({"default","test"})
-public class PagamentosControllerTest {
+public class PagamentosControllerTest extends AbstractControllerTest{
 
     @LocalServerPort
     int porta;
@@ -35,7 +35,7 @@ public class PagamentosControllerTest {
         @Test
         void deveConsultarAutorizacoesPagamentosCliente() {
             ConsultaAutorizacaoPagamentoOutput[] retorno = given()
-                // .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .pathParam("Chave","92345678901" )
                 .when()
                     .get("/api/pagamentos/cliente/{Chave}")
@@ -50,7 +50,7 @@ public class PagamentosControllerTest {
         @Test
         void naoDeveConsultarAutorizacoesPagamentosClienteInexistente() {
             ConsultaAutorizacaoPagamentoOutput[] retorno = given()
-                // .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .pathParam("Chave","62345678901" )
                 .when()
                     .get("/api/pagamentos/cliente/{Chave}")
@@ -69,6 +69,7 @@ public class PagamentosControllerTest {
         void deveAutorizarPagamento() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -88,24 +89,26 @@ public class PagamentosControllerTest {
         @Test
         void naoDeveAutorizarPagamentoCaseLimiteUltrapasse() {
             given()
-                    .contentType(ContentType.JSON)
-                    .body("""
-                    {
-                        "cpf": "12345678901",
-                        "numero": "1111 2222 3333 4441",
-                        "data_validade": "12/24",
-                        "cvv": "123",
-                        "valor": 500
-                    } 
-                """)
-                    .when()
-                    .post("/api/pagamentos")
-                    .then()
-                    .statusCode(HttpStatus.SC_OK)
+                .contentType(ContentType.JSON)
+                .header(getAuthorization())
+                .body("""
+                {
+                    "cpf": "12345678901",
+                    "numero": "1111 2222 3333 4441",
+                    "data_validade": "12/24",
+                    "cvv": "123",
+                    "valor": 500
+                } 
+            """)
+                .when()
+                .post("/api/pagamentos")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
             ;
 
             given()
                     .contentType(ContentType.JSON)
+                    .header(getAuthorization())
                     .body("""
                     {
                         "cpf": "12345678901",
@@ -127,6 +130,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoCpfClienteInvalido() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678909",
@@ -148,6 +152,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoNumeroCartaoInvalido() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -169,6 +174,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoDataValidadeInvalida() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -190,6 +196,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoDataDiferente() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -211,6 +218,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoDataValidadeExpirada() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -232,6 +240,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoCVVInvalido() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -253,6 +262,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoCpfNullOuVazio() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "",
@@ -271,6 +281,7 @@ public class PagamentosControllerTest {
 
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "numero": "1111 2222 3333 4441",
@@ -291,6 +302,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoNumeroCartaoNullOuVazio() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -309,6 +321,7 @@ public class PagamentosControllerTest {
 
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -329,6 +342,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoDataValidadeNullOuVazio() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -347,6 +361,7 @@ public class PagamentosControllerTest {
 
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -367,6 +382,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoCVVNullOuVazio() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -385,6 +401,7 @@ public class PagamentosControllerTest {
 
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -405,6 +422,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoValorNull() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",
@@ -425,6 +443,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoNaoSejaInformadoNemDado() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("{}")
                 .when()
                     .post("/api/pagamentos")
@@ -438,6 +457,7 @@ public class PagamentosControllerTest {
         void naoDeveAutorizarPagamentoCasoDataValidadeEstejaFormatoInvalido() {
             given()
                 .contentType(ContentType.JSON)
+                .header(getAuthorization())
                 .body("""
                     {
                         "cpf": "12345678901",

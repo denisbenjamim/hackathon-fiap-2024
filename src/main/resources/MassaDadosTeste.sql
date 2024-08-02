@@ -1,3 +1,5 @@
+INSERT INTO tb_autenticacao (cd_login, cd_hash_password) VALUES ('adj2','$2y$10$eeW6wqG9zgRq43kh9bCiMeE7Rrh6TIPmzmdVczZTvyuRh625Jz2Wi');
+
 -- CLIENTE SEM CARTOES
 INSERT INTO tb_cliente (cd_cpf, nm_cliente,ds_email,nr_telefone,nm_rua,nm_cidade, nm_estado,cd_cep,nm_pais) VALUES ('12345678900','NOME CLIENTE','EMAIL@EMAIL.COM','+55 11 1234-1234','nm_rua', 'nm_cidade', 'nm_estado', 'cd_cep','nm_pais');
 
