@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-#APLICACAO      
+  # APLICAÇÃO
   hackaton:
     container_name: hackaton
     mem_limit: 512M
@@ -10,10 +10,11 @@ services:
     ports:
       - "8080:8080"
     restart: always
+    environment:
+      - JWT_SECRET=E9X4r5m8T1s2D3d4C5g6H7k8J9l0P1z2
     networks:
-      - hackaton_grupo_11_network      
+      - hackaton_grupo_11_network
 
-##CONFIG NETWORKS
 networks:
   hackaton_grupo_11_network:
     driver: bridge
