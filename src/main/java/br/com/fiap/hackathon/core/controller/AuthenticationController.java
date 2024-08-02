@@ -2,9 +2,8 @@ package br.com.fiap.hackathon.core.controller;
 
 import br.com.fiap.hackathon.core.exception.BusinessException;
 import br.com.fiap.hackathon.core.input.AuthenticationInput;
-import br.com.fiap.hackathon.core.output.LoginResponseOutput;
+import br.com.fiap.hackathon.core.output.Output;
 import br.com.fiap.hackathon.core.usecases.autenticacao.AuthenticationUseCase;
-import br.com.fiap.hackathon.core.vo.autenticacao.AuthenticationVo;
 
 public abstract class AuthenticationController {
 
@@ -14,11 +13,7 @@ public abstract class AuthenticationController {
         this.authenticationUseCase = authenticationUseCase;
     }
 
-    protected LoginResponseOutput login(AuthenticationInput input) throws BusinessException {
+    protected Output login(AuthenticationInput input) throws BusinessException {
         return authenticationUseCase.login(input);
-    }
-
-    protected void register(AuthenticationVo input) throws BusinessException {
-        authenticationUseCase.register(input);
     }
 }

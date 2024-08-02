@@ -35,7 +35,6 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(uriLiberadas()).permitAll()
-                        .requestMatchers("/api/autenticacao/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedEntryPoint))
@@ -54,7 +53,8 @@ public class SecurityConfigurations {
                 "/webjars/**",
                 "/v3/**",
                 "/swagger-ui/**",
-                "v3/api-docs/**"
+                "v3/api-docs/**",
+                "/api/autenticacao/**"
         };
     }
 
