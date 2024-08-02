@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.hackathon.core.controller.PagamentoController;
+import br.com.fiap.hackathon.core.controller.AutorizacaoPagamentoController;
 import br.com.fiap.hackathon.core.gateway.AutorizarPagamentosRepository;
 import br.com.fiap.hackathon.core.gateway.CartoesRepository;
 import br.com.fiap.hackathon.core.input.AutorizarPagamentoInput;
@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/pagamentos")
-public class PagamentosController extends PagamentoController {
+public class AutorizacaoPagamentosController extends AutorizacaoPagamentoController {
     
-    public PagamentosController(AutorizarPagamentosRepository repository, CartoesRepository cartoesRepository) {
+    public AutorizacaoPagamentosController(AutorizarPagamentosRepository repository, CartoesRepository cartoesRepository) {
         super(repository, cartoesRepository);
     }
 

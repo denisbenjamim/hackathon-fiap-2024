@@ -20,12 +20,12 @@ import br.com.fiap.hackathon.core.vo.cartao.CartaoVo;
 import br.com.fiap.hackathon.core.vo.pagamento.AutorizacaoPagamentoVo;
 import io.micrometer.common.util.StringUtils;
 
-public abstract class PagamentoController {
+public abstract class AutorizacaoPagamentoController {
     final BuscaCartaoUseCase buscaCartaoUseCase;
     final AutorizaPagamentoUseCase autorizarPagamentoUseCase;
     final ConsultaPagamentosUseCase consultaPagamentosUseCase;
 
-    public PagamentoController(AutorizarPagamentosRepository repository, CartoesRepository cartoesRepository) {
+    public AutorizacaoPagamentoController(AutorizarPagamentosRepository repository, CartoesRepository cartoesRepository) {
         this.autorizarPagamentoUseCase = new AutorizaPagamentoUseCase(repository);
         this.buscaCartaoUseCase = new BuscaCartaoUseCase(cartoesRepository);
         this.consultaPagamentosUseCase = new ConsultaPagamentosUseCase(repository);

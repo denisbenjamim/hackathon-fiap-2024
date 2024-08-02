@@ -19,7 +19,7 @@ import io.restassured.http.ContentType;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles({"default","test"})
-public class PagamentosControllerTest extends AbstractControllerTest{
+public class AutorizacaoPagamentosControllerTest extends AbstractControllerTest{
 
     @LocalServerPort
     int porta;
