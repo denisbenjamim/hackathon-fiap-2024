@@ -49,6 +49,26 @@ public class CartoesControllerTest  extends AbstractControllerTest{
     }
 
     @Test
+    void naoDeveGerarUmCartaoParaClienteCasoNaoAutenticado() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("""
+                {
+                    "cpf":"12345678900",
+                    "limite":1000,
+                    "numero":"1234 1234 1234 1234",
+                    "data_validade":"12/24",
+                    "cvv":"123"
+                }  
+            """)
+            .when()
+                .post("/api/cartao")
+            .then()
+                .statusCode(HttpStatus.SC_UNAUTHORIZED)
+        ;
+    }
+
+    @Test
     void naoDeveGerarUmCartaoParaClienteCasoJaTenhaAtingidoLimiteDeCartoes() {
         given()
             .header(getAuthorization())

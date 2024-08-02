@@ -48,6 +48,18 @@ public class PagamentosControllerTest extends AbstractControllerTest{
         }
 
         @Test
+        void naoDeveConsultarAutorizacoesPagamentosClienteCasoNaoAutenticado() {
+            given()
+                .pathParam("Chave","92345678901" )
+                .when()
+                    .get("/api/pagamentos/cliente/{Chave}")
+                .then()
+                    .statusCode(HttpStatus.SC_UNAUTHORIZED)
+            ;
+
+        }
+
+        @Test
         void naoDeveConsultarAutorizacoesPagamentosClienteInexistente() {
             ConsultaAutorizacaoPagamentoOutput[] retorno = given()
                 .header(getAuthorization())

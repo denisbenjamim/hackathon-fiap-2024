@@ -54,6 +54,30 @@ class ClientesControllerTest extends AbstractControllerTest{
     }
 
     @Test
+    void naoDeveRegistrarClienteCasoNaoAutenticado() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("""
+                {
+                    "cpf":"11111111111",
+                    "nome":"João da Silva",
+                    "email":"joao@example.com",
+                    "telefone":"+55 11 91234-5678",
+                    "rua":"Rua A",
+                    "cidade":"Cidade",
+                    "estado":"Estado",
+                    "cep":"12345-678",
+                    "pais":"Brasil"
+                }  
+            """)
+            .when()
+                .post("/api/cliente")
+            .then()
+                .statusCode(HttpStatus.SC_UNAUTHORIZED)
+        ;
+    }
+
+    @Test
     void naoDeveRegistrarClienteRepetido() {
         given()
             .contentType(ContentType.JSON)
