@@ -18,17 +18,17 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secretKey;
 
-    private Instant genExpirationDate() {
-        return LocalDateTime.now().plusMinutes(2).toInstant(ZoneOffset.of("-03:00"));
+    private Instant genExpirationDate(long minutes) {
+        return LocalDateTime.now().plusMinutes(minutes).toInstant(ZoneOffset.of("-03:00"));
     }
 
-    public String generateToken(AutenticacaoEntity user) {
+    public String generateToken(AutenticacaoEntity user, long expirationMinutes) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
             return JWT.create()
                     .withIssuer("auth-api")
                     .withSubject(user.getLogin())
-                    .withExpiresAt(genExpirationDate())
+                    .withExpiresAt(genExpirationDate(expirationMinutes))
                     .sign(algorithm);
         } catch (JWTCreationException ex) {
             throw new RuntimeException("Error while generating token", ex);

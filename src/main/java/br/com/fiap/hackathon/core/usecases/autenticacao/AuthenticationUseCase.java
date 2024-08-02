@@ -31,7 +31,7 @@ public class AuthenticationUseCase {
 
         var usernamePassword = new UsernamePasswordAuthenticationToken(authInput.login(), authInput.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-        var token = this.tokenService.generateToken((AutenticacaoEntity) auth.getPrincipal());
+        var token = this.tokenService.generateToken((AutenticacaoEntity) auth.getPrincipal(), 2); // Expira em 2 minutos
         return new LoginResponseOutput(token);
     }
 
