@@ -1,47 +1,27 @@
 package br.com.fiap.hackathon.spring.controller;
 
-import br.com.fiap.hackathon.core.gateway.AutenticacaoRepository;
-import br.com.fiap.hackathon.core.input.AuthenticationInput;
-import br.com.fiap.hackathon.core.output.LoginResponseOutput;
-import br.com.fiap.hackathon.core.services.TokenService;
-import br.com.fiap.hackathon.spring.entity.AutenticacaoEntity;
-import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseBadRequestJson;
-import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJson;
-import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseServerErrorJson;
-import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseUnauthorizedJson;
+import br.com.fiap.hackathon.spring.dto.CredencialDTO;
+import br.com.fiap.hackathon.spring.services.AutenticacoesService;
+import br.com.fiap.hackathon.spring.swagger.custom.ApiResponse_200_401_500;
+import br.com.fiap.hackathon.spring.utils.SpringControllerUtils;
 import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/autenticacao")
 public class AutenticacoesController {
 
-    private final AuthenticationManager authenticationManager;
-    private final TokenService tokenService;
-
-    public AutenticacoesController(AutenticacaoRepository autenticacaoRepository, TokenService tokenService, AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-        this.tokenService = tokenService;
-    }
+    @Autowired
+    AutenticacoesService service;
 
     @PostMapping
-    @ApiResponseOkJson
-    @ApiResponseUnauthorizedJson
-    @ApiResponseBadRequestJson
-    @ApiResponseServerErrorJson
-    public ResponseEntity<LoginResponseOutput> login(@RequestBody @Valid AuthenticationInput data) {
-        try {
-            var usernamePassword = new UsernamePasswordAuthenticationToken(data.usuario(), data.senha());
-            var auth = this.authenticationManager.authenticate(usernamePassword);
-            var token = this.tokenService.generateToken((AutenticacaoEntity) auth.getPrincipal(), 2); // Token expira em 2 minutos
-
-            return ResponseEntity.ok(new LoginResponseOutput(token));
-        } catch (Exception e) {
-            return ResponseEntity.status(401).build();
-        }
+    @ApiResponse_200_401_500
+    public ResponseEntity<?> login(@RequestBody @Valid CredencialDTO data) {
+       return SpringControllerUtils.response(HttpStatus.OK, ()-> service.login(data));
     }
 
 }

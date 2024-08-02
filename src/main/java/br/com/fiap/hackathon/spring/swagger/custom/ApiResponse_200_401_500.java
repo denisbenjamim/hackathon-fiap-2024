@@ -7,7 +7,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseServerErrorJson;
-import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseForbiddemJson;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJson;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseUnauthorized;
 
@@ -15,6 +14,5 @@ import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseUnautho
 @Target({ METHOD })
 @ApiResponseOkJson
 @ApiResponseUnauthorized
-@ApiResponseForbiddemJson
 @ApiResponseServerErrorJson
-public @interface ApiResponse_200_401_403_500 {}
+public @interface ApiResponse_200_401_500 {}

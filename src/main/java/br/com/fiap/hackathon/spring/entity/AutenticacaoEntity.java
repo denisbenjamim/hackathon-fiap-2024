@@ -24,34 +24,15 @@ public class AutenticacaoEntity implements UserDetails {
     String login;
     @Column(name = "cd_hash_password")
     String password;
-
-    // Construtor padrão exigido pelo JPA
-    public AutenticacaoEntity() {
-    }
-
-    public AutenticacaoEntity(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
     
-    public Integer getCodigo() {
-        return codigo;
-    }
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
-    }
     public String getLogin() {
         return login;
     }
-    public void setLogin(String login) {
-        this.login = login;
-    }
+
     public String getPassword() {
         return password;
     }
-    public void setPassword(String password) {
-        this.password = password;
-    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

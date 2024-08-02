@@ -11,11 +11,10 @@ import br.com.fiap.hackathon.core.controller.PagamentoController;
 import br.com.fiap.hackathon.core.gateway.AutorizarPagamentosRepository;
 import br.com.fiap.hackathon.core.gateway.CartoesRepository;
 import br.com.fiap.hackathon.core.input.AutorizarPagamentoInput;
-import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseBadRequestJson;
-import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJsonAutorizacaoPagamento;
+import br.com.fiap.hackathon.spring.swagger.custom.ApiResponseAutorizaoPagamento_200_401_402_500;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJsonConsultaPagamentosCliente;
-import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponsePaymentRequiredJson;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseServerErrorJson;
+import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseUnauthorized;
 import br.com.fiap.hackathon.spring.utils.SpringControllerUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,15 +29,14 @@ public class PagamentosController extends PagamentoController {
     }
 
     @PostMapping
-    @ApiResponseOkJsonAutorizacaoPagamento
-    @ApiResponsePaymentRequiredJson
-    @ApiResponseBadRequestJson
+    @ApiResponseAutorizaoPagamento_200_401_402_500
     public ResponseEntity<?> autorizarPagamento(@RequestBody AutorizarPagamentoInput request ){
         return SpringControllerUtils.response(HttpStatus.OK, () -> autorizar(request));
     }
 
     @GetMapping("/cliente/{Chave}")
     @ApiResponseOkJsonConsultaPagamentosCliente
+    @ApiResponseUnauthorized
     @ApiResponseServerErrorJson
     public ResponseEntity<?> consultarPagamentos(@PathVariable("Chave") String cpf) {
         return SpringControllerUtils.response(HttpStatus.OK, () -> consultarPagamentosCliente(cpf));

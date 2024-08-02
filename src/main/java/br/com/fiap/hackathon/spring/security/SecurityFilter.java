@@ -1,8 +1,8 @@
 package br.com.fiap.hackathon.spring.security;
 
-import br.com.fiap.hackathon.core.services.TokenService;
 import br.com.fiap.hackathon.spring.entity.AutenticacaoEntity;
 import br.com.fiap.hackathon.spring.repository.AutenticacaoRepositoryJPA;
+import br.com.fiap.hackathon.spring.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
