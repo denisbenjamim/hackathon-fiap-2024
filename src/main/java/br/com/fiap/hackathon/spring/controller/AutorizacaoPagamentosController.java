@@ -16,12 +16,16 @@ import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseOkJsonC
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseServerErrorJson;
 import br.com.fiap.hackathon.spring.swagger.custom.annotation.ApiResponseUnauthorized;
 import br.com.fiap.hackathon.spring.utils.SpringControllerUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
 @RequestMapping("/api/pagamentos")
+@Tag(name = "Autorização Pagamentos endpoint")
 public class AutorizacaoPagamentosController extends AutorizacaoPagamentoController {
     
     public AutorizacaoPagamentosController(AutorizarPagamentosRepository repository, CartoesRepository cartoesRepository) {
@@ -30,6 +34,7 @@ public class AutorizacaoPagamentosController extends AutorizacaoPagamentoControl
 
     @PostMapping
     @ApiResponseAutorizaoPagamento_200_401_402_500
+    @Operation(summary = "Autoriza pagamento realizado por um cliente utilizando um cartão")
     public ResponseEntity<?> autorizarPagamento(@RequestBody AutorizarPagamentoInput request ){
         return SpringControllerUtils.response(HttpStatus.OK, () -> autorizar(request));
     }
@@ -38,6 +43,7 @@ public class AutorizacaoPagamentosController extends AutorizacaoPagamentoControl
     @ApiResponseOkJsonConsultaPagamentosCliente
     @ApiResponseUnauthorized
     @ApiResponseServerErrorJson
+    @Operation(summary = "Lista com todos pagamentos de um cliente aprovados e recusados")
     public ResponseEntity<?> consultarPagamentos(@PathVariable("Chave") String cpf) {
         return SpringControllerUtils.response(HttpStatus.OK, () -> consultarPagamentosCliente(cpf));
     }

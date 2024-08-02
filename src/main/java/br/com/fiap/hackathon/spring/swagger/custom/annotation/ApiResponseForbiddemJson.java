@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @ApiResponse(
 	responseCode = "403", 
-	description = "Proibido",
+	description = "Número máximo de cartões atingido",
     content = { 
 		@Content(
 			mediaType = MediaType.APPLICATION_JSON_VALUE,

@@ -7,23 +7,21 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.springframework.http.MediaType;
-
-import br.com.fiap.hackathon.spring.utils.MessageErrorHandler;
+import br.com.fiap.hackathon.spring.dto.TokenDTO;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.MediaType;
 
 @Retention(RUNTIME)
 @Target({ TYPE, METHOD })
-
 @ApiResponse(
-	responseCode = "400", 
-	description = "Validação regra de negócio.",
-    content = { 
+	responseCode = "200", 
+	description = "Operação realizada com sucesso.",
+	content = { 
 		@Content(
-			mediaType = MediaType.APPLICATION_JSON_VALUE,
-			schema = @Schema(implementation = MessageErrorHandler.class)
-		)
-})
-public @interface ApiResponseBadRequestJson {}
+				mediaType = MediaType.APPLICATION_JSON_VALUE,
+				schema = @Schema(implementation = TokenDTO.class)
+		)}
+   )
+public @interface ApiResponseOkJsonToken  {}

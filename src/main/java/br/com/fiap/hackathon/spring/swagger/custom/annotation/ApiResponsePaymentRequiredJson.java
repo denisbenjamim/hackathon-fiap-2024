@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @ApiResponse(
 	responseCode = "402", 
-	description = "Pagamento necessário",
+	description = "Sem limite no cartão",
     content = { 
 		@Content(
 			mediaType = MediaType.APPLICATION_JSON_VALUE,
