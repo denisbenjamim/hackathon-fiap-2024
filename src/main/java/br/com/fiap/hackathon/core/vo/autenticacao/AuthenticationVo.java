@@ -1,7 +1,5 @@
 package br.com.fiap.hackathon.core.vo.autenticacao;
 
-import java.util.Objects;
-
 import br.com.fiap.hackathon.core.exception.ArgumentoObrigatorioException;
 
 public class AuthenticationVo {
@@ -9,10 +7,10 @@ public class AuthenticationVo {
     private final String password;
 
     public AuthenticationVo(String login, String password) throws ArgumentoObrigatorioException {
-        if (Objects.isNull(login) || login.isBlank()) {
+        if (login == null || login.isBlank()) {
             throw new ArgumentoObrigatorioException("Login é obrigatório");
         }
-        if (Objects.isNull(password) || password.isBlank()) {
+        if (password == null || password.isBlank()) {
             throw new ArgumentoObrigatorioException("Senha é obrigatória");
         }
         this.login = login;
