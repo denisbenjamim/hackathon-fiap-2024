@@ -1,5 +1,6 @@
 package br.com.fiap.hackathon.spring.services;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,10 +20,16 @@ public class AutenticacoesService {
 
     @Autowired
     AuthenticationManager authenticationManager;
+    
+    public AutenticacoesService() {}
+
+    protected AutenticacoesService(TokenService tokenService, AuthenticationManager authenticationManager) {
+        this.tokenService = tokenService;
+        this.authenticationManager = authenticationManager;
+    }
 
     public TokenDTO login(CredencialDTO authInput) throws BusinessException {
-        if (authInput == null || authInput.usuario() == null || authInput.usuario().isBlank()
-                || authInput.senha() == null || authInput.senha().isBlank()) {
+        if (validarDadosCredencial(authInput)) {
             throw new ArgumentoObrigatorioException("Login e senha são obrigatórios");
         }
         
@@ -30,5 +37,9 @@ public class AutenticacoesService {
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var token = this.tokenService.generateToken((AutenticacaoEntity) auth.getPrincipal(), 2); // Expira em 2 minutos
         return new TokenDTO(token);
+    }
+
+    private boolean validarDadosCredencial(CredencialDTO authInput) {
+        return StringUtils.isBlank(authInput.usuario()) || StringUtils.isBlank(authInput.senha());
     }
 }

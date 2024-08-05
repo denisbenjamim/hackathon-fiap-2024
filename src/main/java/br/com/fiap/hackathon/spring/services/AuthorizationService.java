@@ -15,6 +15,12 @@ public class AuthorizationService implements UserDetailsService {
    @Autowired
    AutenticacaoRepositoryJPA autenticacaoRepositoryJPA;
 
+    public AuthorizationService() {}
+
+    protected AuthorizationService(AutenticacaoRepositoryJPA autenticacaoRepositoryJPA) {
+        this.autenticacaoRepositoryJPA = autenticacaoRepositoryJPA;
+    }
+
     @Cacheable("usersDetails")
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {

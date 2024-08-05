@@ -41,7 +41,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         }
     }
 
-    private void autenticarByLogin(String login){
+    protected void autenticarByLogin(String login){
         if (login != null) {
             AutenticacaoEntity user = userRepository.findByLogin(login).orElse(null);
             
@@ -56,7 +56,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         }
     }
 
-    private String recoverToken(HttpServletRequest request) {
+    protected String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return null;
