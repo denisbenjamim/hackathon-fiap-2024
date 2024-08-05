@@ -2,7 +2,7 @@ package br.com.fiap.hackathon.spring.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.authentication.BadCredentialsException;
 import br.com.fiap.hackathon.core.exception.BusinessException;
 import br.com.fiap.hackathon.core.exception.EntidadeNaoEncontradaException;
 import br.com.fiap.hackathon.infra.Generated;
@@ -33,8 +33,12 @@ public class SpringControllerUtils {
         	return ResponseEntity
     			.status(ex.getStatusCode())
 				.body(MessageErrorHandler.create(ex.getMessage()));
-	    } catch (Exception ex) {
-	        return ResponseEntity
+	    } catch (BadCredentialsException ex){
+			return ResponseEntity
+					.status(HttpStatus.UNAUTHORIZED)
+					.body(MessageErrorHandler.create(ex.getMessage()));
+		}catch (Exception ex) {
+			return ResponseEntity
         		.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(MessageErrorHandler.create(ex.getMessage()));
 	    }
